@@ -3,7 +3,7 @@ import { ArrowRight } from 'lucide-react';
 import { Reveal } from '@/components/ui/Reveal';
 import { SkillCard } from '@/components/SkillCard';
 import { Spinner } from '@/components/ui/Spinner';
-import { supabase } from '@/lib/supabase';
+import { isSupabaseConfigured, supabase } from '@/lib/supabase';
 import type { SkillWithProfile } from '@/types';
 
 type Props = {
@@ -15,6 +15,11 @@ export function FeaturedSkills({ onEnter }: Props) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!isSupabaseConfigured) {
+      setLoading(false);
+      return;
+    }
+
     (async () => {
       const { data } = await supabase
         .from('skills')
