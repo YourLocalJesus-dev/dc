@@ -1,5 +1,4 @@
 import { Logo } from '@/components/ui/Logo';
-import { Github, Twitter, Linkedin } from 'lucide-react';
 
 export function Footer() {
   return (
@@ -13,21 +12,10 @@ export function Footer() {
             </p>
           </div>
 
-          <div className="flex items-center gap-3">
-            {[
-              { icon: Twitter, label: 'Twitter' },
-              { icon: Github, label: 'GitHub' },
-              { icon: Linkedin, label: 'LinkedIn' },
-            ].map((s) => (
-              <a
-                key={s.label}
-                href="#"
-                aria-label={s.label}
-                className="h-10 w-10 rounded-full border border-canvas-300 flex items-center justify-center text-ink-500 hover:bg-ink-900 hover:text-canvas-50 hover:border-ink-900 transition-all duration-300"
-              >
-                <s.icon className="h-4 w-4" />
-              </a>
-            ))}
+          <div className="text-right">
+            <p className="text-sm text-ink-500 font-display italic">
+              Your knowledge is a gift.
+            </p>
           </div>
         </div>
 
