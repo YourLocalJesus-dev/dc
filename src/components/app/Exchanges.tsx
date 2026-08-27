@@ -23,8 +23,8 @@ export function Exchanges() {
       .select(`
         *,
         skills!exchanges_skill_id_fkey(title, category),
-        requester:profiles!exchanges_requester_id_fkey(id, full_name, avatar_color),
-        recipient:profiles!exchanges_recipient_id_fkey(id, full_name, avatar_color)
+        requester:profiles!exchanges_requester_id_fkey(id, full_name, avatar_color, avatar_url),
+        recipient:profiles!exchanges_recipient_id_fkey(id, full_name, avatar_color, avatar_url)
       `)
       .or(`requester_id.eq.${user.id},recipient_id.eq.${user.id}`)
       .order('created_at', { ascending: false });
@@ -119,7 +119,7 @@ export function Exchanges() {
                 <div className="rounded-2xl border border-canvas-200 bg-canvas-50 p-5 transition-all hover:shadow-md">
                   <div className="flex items-start gap-4">
                     {other && (
-                      <Avatar name={other.full_name} colorKey={other.avatar_color} size="lg" />
+                      <Avatar name={other.full_name} colorKey={other.avatar_color} src={other.avatar_url} size="lg" />
                     )}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap mb-1">

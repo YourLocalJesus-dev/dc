@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { supabase } from '@/lib/supabase';
 import { Avatar } from '@/components/ui/Avatar';
@@ -7,8 +7,8 @@ import { Reveal } from '@/components/ui/Reveal';
 import { SkillCard } from '@/components/SkillCard';
 import { SkillForm } from '@/components/app/SkillForm';
 import { Button } from '@/components/ui/Button';
-import { COLOR_KEYS, avatarColor, CATEGORIES } from '@/lib/constants';
-import { Pencil, Plus, MapPin, Trash2, Star, Sparkles, Search } from 'lucide-react';
+import { COLOR_KEYS, avatarColor } from '@/lib/constants';
+import { Pencil, Plus, MapPin, Trash2, Star, Sparkles, Search, Camera } from 'lucide-react';
 import type { SkillWithProfile, Review } from '@/types';
 
 export function Profile() {
@@ -24,13 +24,16 @@ export function Profile() {
   const [location, setLocation] = useState('');
   const [colorKey, setColorKey] = useState('emerald');
   const [saving, setSaving] = useState(false);
+  const [uploadingAvatar, setUploadingAvatar] = useState(false);
+  const [avatarError, setAvatarError] = useState<string | null>(null);
+  const avatarInputRef = useRef<HTMLInputElement>(null);
 
   async function load() {
     if (!user) return;
     const [skillsRes, reviewsRes] = await Promise.all([
       supabase
         .from('skills')
-        .select('*, profiles!skills_user_id_fkey(id, full_name, avatar_color, location)')
+        .select('*, profiles!skills_user_id_fkey(id, full_name, avatar_color, avatar_url, location)')
         .eq('user_id', user.id)
         .order('created_at', { ascending: false }),
       supabase
@@ -75,6 +78,33 @@ export function Profile() {
     setEditing(false);
   }
 
+  async function uploadAvatar(file: File) {
+    if (!user) return;
+    setAvatarError(null);
+    if (!file.type.startsWith('image/')) {
+      setAvatarError('Please choose an image file.');
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      setAvatarError('Your photo must be smaller than 5MB.');
+      return;
+    }
+    setUploadingAvatar(true);
+    const extension = file.name.split('.').pop()?.toLowerCase() || 'jpg';
+    const path = `${user.id}/avatar.${extension}`;
+    const { error } = await supabase.storage.from('avatars').upload(path, file, { upsert: true, contentType: file.type });
+    if (error) {
+      setAvatarError(error.message);
+    } else {
+      const { data } = supabase.storage.from('avatars').getPublicUrl(path);
+      const avatarUrl = `${data.publicUrl}?v=${Date.now()}`;
+      const { error: profileError } = await supabase.from('profiles').update({ avatar_url: avatarUrl }).eq('id', user.id);
+      if (profileError) setAvatarError(profileError.message);
+      else await refreshProfile();
+    }
+    setUploadingAvatar(false);
+  }
+
   async function deleteSkill(id: string) {
     await supabase.from('skills').delete().eq('id', id);
     load();
@@ -95,12 +125,11 @@ export function Profile() {
         <div className="relative overflow-hidden rounded-3xl border border-canvas-200 bg-canvas-50 p-8 grain">
           <div className="absolute -top-16 -right-16 h-48 w-48 rounded-full bg-gradient-to-br from-saffron-200/30 to-terracotta-200/20 blur-3xl" />
           <div className="relative flex flex-col md:flex-row md:items-start gap-6">
-            <Avatar
-              name={profile.full_name}
-              colorKey={profile.avatar_color}
-              size="xl"
-              className="ring-4 ring-canvas-50"
-            />
+            <button type="button" onClick={() => avatarInputRef.current?.click()} className="group relative shrink-0 rounded-full" aria-label="Change profile photo">
+              <Avatar name={profile.full_name} colorKey={profile.avatar_color} src={profile.avatar_url} size="xl" className="ring-4 ring-canvas-50" />
+              <span className="absolute inset-0 grid place-items-center rounded-full bg-ink-900/55 text-canvas-50 opacity-0 transition-opacity group-hover:opacity-100">{uploadingAvatar ? '…' : <Camera className="h-5 w-5" />}</span>
+            </button>
+            <input ref={avatarInputRef} type="file" accept="image/png,image/jpeg,image/webp" className="hidden" onChange={(e) => e.target.files?.[0] && uploadAvatar(e.target.files[0])} />
             <div className="flex-1">
               <h1 className="font-display text-3xl md:text-4xl font-light text-ink-900 mb-1">
                 {profile.full_name}
@@ -116,7 +145,7 @@ export function Profile() {
                   {profile.bio}
                 </p>
               )}
-              <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4">
                 <div className="flex items-center gap-1.5">
                   <Sparkles className="h-4 w-4 text-sage-500" />
                   <span className="text-sm text-ink-600">
@@ -138,6 +167,7 @@ export function Profile() {
                 )}
               </div>
             </div>
+            {avatarError && <p className="mt-3 max-w-xl text-xs text-terracotta-600">Photo upload: {avatarError}</p>}
             <Button onClick={() => setEditing(true)} variant="outline" size="sm">
               <Pencil className="h-3.5 w-3.5" />
               Edit profile

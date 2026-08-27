@@ -12,11 +12,11 @@ type Props = {
 
 export function Landing({ onEnter }: Props) {
   return (
-    <div className="min-h-screen">
+    <div id="top" className="min-h-screen bg-canvas-50">
       <LandingNav onEnter={onEnter} />
       <Hero onEnter={onEnter} />
       <section id="features">
-        <Features />
+        <Features onEnter={onEnter} />
       </section>
       <section id="how-it-works">
         <HowItWorks />

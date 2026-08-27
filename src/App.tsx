@@ -26,7 +26,7 @@ function Shell() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-canvas-50">
-        <Spinner>Preparing your studio…</Spinner>
+        <Spinner size="sm" className="py-0">Preparing your studio…</Spinner>
       </div>
     );
   }

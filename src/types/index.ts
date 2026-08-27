@@ -4,6 +4,7 @@ export type Profile = {
   bio: string;
   location: string;
   avatar_color: string;
+  avatar_url: string | null;
   created_at: string;
 };
 
@@ -38,11 +39,11 @@ export type Review = {
 };
 
 export type SkillWithProfile = Skill & {
-  profiles: Pick<Profile, 'id' | 'full_name' | 'avatar_color' | 'location'> | null;
+  profiles: Pick<Profile, 'id' | 'full_name' | 'avatar_color' | 'avatar_url' | 'location'> | null;
 };
 
 export type ExchangeWithDetails = Exchange & {
   skills: Pick<Skill, 'title' | 'category'> | null;
-  requester: Pick<Profile, 'id' | 'full_name' | 'avatar_color'> | null;
-  recipient: Pick<Profile, 'id' | 'full_name' | 'avatar_color'> | null;
+  requester: Pick<Profile, 'id' | 'full_name' | 'avatar_color' | 'avatar_url'> | null;
+  recipient: Pick<Profile, 'id' | 'full_name' | 'avatar_color' | 'avatar_url'> | null;
 };

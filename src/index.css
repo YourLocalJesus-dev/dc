@@ -19,10 +19,12 @@
     overflow-x: hidden;
   }
 
+
   ::selection {
     @apply bg-saffron-300 text-ink-900;
   }
 }
+
 
 @layer utilities {
   .text-balance {
@@ -54,6 +56,61 @@
     pointer-events: none;
     mix-blend-mode: multiply;
   }
+
+  .paper-edge {
+    box-shadow: 0 1px 0 rgba(34, 28, 19, 0.08), 0 18px 44px rgba(34, 28, 19, 0.08), inset 0 1px rgba(255, 255, 255, 0.75);
+  }
+
+  .atelier-rule {
+    background-image: linear-gradient(90deg, transparent, rgba(34, 28, 19, 0.16) 14%, rgba(34, 28, 19, 0.16) 86%, transparent);
+  }
+
+  .exhibit-number {
+    -webkit-text-stroke: 1px rgba(34, 28, 19, 0.16);
+    color: transparent;
+  }
+
+  .editorial-card {
+    background: linear-gradient(135deg, rgba(255,255,255,0.56), rgba(250,248,245,0.88));
+    box-shadow: 0 1px 0 rgba(255,255,255,0.8) inset, 0 18px 45px rgba(34, 28, 19, 0.055);
+  }
+
+  .kinetic-orbit {
+    animation: orbitDrift 24s ease-in-out infinite;
+    transform-origin: center;
+  }
+
+  .kinetic-orbit-reverse {
+    animation: orbitDriftReverse 30s ease-in-out infinite;
+    transform-origin: center;
+  }
+
+  .kinetic-object {
+    animation: objectBreathe 8s ease-in-out infinite;
+    transform-origin: center;
+  }
+
+  .ink-draw {
+    stroke-dasharray: 700;
+    stroke-dashoffset: 700;
+    animation: inkDraw 2.8s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
+  }
+
+  .portal-ring-one { animation: portalTurn 22s linear infinite; }
+  .portal-ring-two { animation: portalTurnReverse 17s linear infinite; }
+  .portal-window { animation: portalFloat 7s ease-in-out infinite; }
+  .portal-star { animation: starBlink 3s ease-in-out infinite; }
+  .portal-line { stroke-dasharray: 350; stroke-dashoffset: 350; animation: portalDraw 3.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+  .skill-satellite { animation: satelliteFloat 7s ease-in-out infinite; }
+  .auth-mode-toggle { position: relative; }
+  .auth-mode-thumb { position: absolute; inset: 0.25rem auto 0.25rem 0.25rem; width: calc(50% - 0.25rem); border-radius: 999px; transition: transform 620ms cubic-bezier(0.16, 1, 0.3, 1), background-color 420ms ease, box-shadow 420ms ease; }
+  .auth-copy-stage { position: relative; min-height: 7.2rem; }
+  .auth-copy { position: absolute; inset: 0; transform: translateY(14px) scale(0.98); opacity: 0; filter: blur(3px); transition: opacity 420ms ease, transform 620ms cubic-bezier(0.16, 1, 0.3, 1), filter 420ms ease; pointer-events: none; }
+  .auth-copy-active { transform: translateY(0) scale(1); opacity: 1; filter: blur(0); }
+  .auth-name-slot { display: grid; grid-template-rows: 0fr; margin-bottom: -1rem; opacity: 0; transition: grid-template-rows 620ms cubic-bezier(0.16, 1, 0.3, 1), margin-bottom 620ms cubic-bezier(0.16, 1, 0.3, 1), opacity 320ms ease; }
+  .auth-name-slot-open { grid-template-rows: 1fr; margin-bottom: 0; opacity: 1; }
+  .auth-name-inner { min-height: 0; overflow: hidden; transform: translateY(-12px) scale(0.98); transition: transform 620ms cubic-bezier(0.16, 1, 0.3, 1); }
+  .auth-name-slot-open .auth-name-inner { transform: translateY(0) scale(1); }
 
   .shimmer-text {
     background: linear-gradient(
@@ -130,19 +187,61 @@
   }
 }
 
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes orbitDrift {
+  0%, 100% { transform: rotate(-8deg) scale(1); }
+  50% { transform: rotate(8deg) scale(1.035); }
+}
+
+@keyframes orbitDriftReverse {
+  0%, 100% { transform: rotate(10deg) scale(1.02); }
+  50% { transform: rotate(-10deg) scale(0.98); }
+}
+
+@keyframes objectBreathe {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(6deg); }
+  50% { transform: translate3d(-8px, -12px, 0) rotate(3deg); }
+}
+
+@keyframes inkDraw {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes portalTurn { to { transform: translate(-50%, -50%) rotate(360deg); } }
+@keyframes portalTurnReverse { to { transform: translate(-50%, -50%) rotate(-360deg); } }
+@keyframes portalFloat { 0%, 100% { transform: translate(-50%, -50%) translateY(0) rotate(-2deg); } 50% { transform: translate(-50%, -50%) translateY(-12px) rotate(2deg); } }
+@keyframes starBlink { 0%, 100% { transform: scale(.65); opacity: .45; } 50% { transform: scale(1.5); opacity: 1; } }
+@keyframes portalDraw { to { stroke-dashoffset: 0; } }
+@keyframes satelliteFloat { 0%, 100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-11px) rotate(1deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .portal-ring-one, .portal-ring-two, .portal-window, .portal-star, .portal-line, .skill-satellite, .kinetic-orbit, .kinetic-orbit-reverse, .kinetic-object, .ink-draw { animation: none; }
+  .auth-mode-thumb, .auth-copy, .auth-name-slot, .auth-name-inner { transition: none; }
+}
+
+@layer utilities {
+  .bg-gradient-radial {
+    background: radial-gradient(ellipse at center, var(--tw-gradient-from, transparent), var(--tw-gradient-to, transparent));
+  }
+}
+
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f4efe8;
+  background: #faf8f5;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #b8a487;
-  border-radius: 4px;
+  background: #d4c5b0;
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #9a8260;
+  background: #b8a487;
 }

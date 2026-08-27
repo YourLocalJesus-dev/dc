@@ -5,6 +5,7 @@ type Props = {
   colorKey?: string;
   size?: 'sm' | 'md' | 'lg' | 'xl';
   className?: string;
+  src?: string | null;
 };
 
 const sizes = {
@@ -14,13 +15,13 @@ const sizes = {
   xl: 'h-20 w-20 text-2xl',
 };
 
-export function Avatar({ name, colorKey = 'emerald', size = 'md', className = '' }: Props) {
+export function Avatar({ name, colorKey = 'emerald', size = 'md', className = '', src }: Props) {
   const c = avatarColor(colorKey);
   return (
     <div
       className={`${sizes[size]} ${c.bg} ${c.text} rounded-full ring-2 ${c.ring} flex items-center justify-center font-display font-semibold shrink-0 ${className}`}
     >
-      {initials(name) || '?'}
+      {src ? <img src={src} alt="" className="h-full w-full rounded-full object-cover" /> : (initials(name) || '?')}
     </div>
   );
 }

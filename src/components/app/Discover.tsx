@@ -21,7 +21,7 @@ export function Discover() {
     (async () => {
       const { data } = await supabase
         .from('skills')
-        .select('*, profiles!skills_user_id_fkey(id, full_name, avatar_color, location)')
+        .select('*, profiles!skills_user_id_fkey(id, full_name, avatar_color, avatar_url, location)')
         .neq('user_id', user?.id ?? '')
         .order('created_at', { ascending: false });
       setSkills((data as SkillWithProfile[]) ?? []);

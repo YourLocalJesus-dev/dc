@@ -24,57 +24,54 @@ export function AppNav({ view, onNavigate }: Props) {
 
   return (
     <>
-      <nav className="sticky top-0 z-50 glass border-b border-canvas-200">
-        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-          <button onClick={() => onNavigate('dashboard')}>
+      <nav className="sticky top-0 z-50 border-b border-canvas-200/80 bg-canvas-50/80 backdrop-blur-xl">
+        <div className="mx-auto flex h-[4.75rem] max-w-6xl items-center justify-between px-5 sm:px-6">
+          <button onClick={() => onNavigate('dashboard')} className="shrink-0">
             <Logo />
           </button>
 
-          <div className="hidden md:flex items-center gap-1">
+          <div className="hidden items-center rounded-full border border-canvas-200 bg-canvas-100/60 p-1 md:flex">
             {items.map((item) => (
               <button
                 key={item.key}
                 onClick={() => onNavigate(item.key)}
-                className={`relative inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                className={`relative inline-flex items-center gap-2 rounded-full px-3.5 py-2 text-xs font-medium transition-all duration-300 ${
                   view === item.key
-                    ? 'text-ink-900'
+                    ? 'bg-canvas-50 text-ink-900 shadow-sm'
                     : 'text-ink-500 hover:text-ink-800'
                 }`}
               >
-                {view === item.key && (
-                  <span className="absolute inset-0 rounded-full bg-canvas-100" />
-                )}
-                <item.icon className="relative h-4 w-4" />
-                <span className="relative">{item.label}</span>
+                <item.icon className="h-3.5 w-3.5" />
+                <span>{item.label}</span>
               </button>
             ))}
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             {profile && (
               <button
                 onClick={() => onNavigate('profile')}
-                className="hidden md:flex items-center gap-2.5 group"
+                className="hidden items-center gap-2.5 rounded-full border border-transparent py-1 pl-1 pr-2.5 transition-colors hover:border-canvas-200 hover:bg-canvas-100 md:flex"
               >
                 <div className="text-right">
-                  <p className="text-sm font-medium text-ink-800 leading-tight">
+                  <p className="text-xs font-medium leading-tight text-ink-800">
                     {profile.full_name}
                   </p>
-                  <p className="text-xs text-ink-400">View profile</p>
+                  <p className="text-[10px] text-ink-400">Your profile</p>
                 </div>
-                <Avatar name={profile.full_name} colorKey={profile.avatar_color} size="md" />
+                <Avatar name={profile.full_name} colorKey={profile.avatar_color} src={profile.avatar_url} size="sm" />
               </button>
             )}
             <button
               onClick={signOut}
-              className="hidden md:inline-flex h-10 w-10 items-center justify-center rounded-full text-ink-500 hover:bg-terracotta-50 hover:text-terracotta-600 transition-all"
+              className="hidden h-9 w-9 items-center justify-center rounded-full text-ink-400 transition-all hover:bg-terracotta-50 hover:text-terracotta-600 md:inline-flex"
               aria-label="Sign out"
             >
               <LogOut className="h-4 w-4" />
             </button>
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="md:hidden h-10 w-10 inline-flex items-center justify-center rounded-full text-ink-700 hover:bg-canvas-100"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-canvas-200 text-ink-700 hover:bg-canvas-100 md:hidden"
             >
               {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
@@ -83,8 +80,9 @@ export function AppNav({ view, onNavigate }: Props) {
       </nav>
 
       {mobileOpen && (
-        <div className="md:hidden fixed inset-0 top-16 z-40 glass border-t border-canvas-200 animate-fade-in p-6">
-          <div className="flex flex-col gap-2">
+        <div className="fixed inset-0 top-[4.75rem] z-40 border-t border-canvas-200 bg-canvas-50/95 p-5 backdrop-blur-xl animate-fade-in md:hidden">
+          <div className="mx-auto flex max-w-sm flex-col gap-2">
+            <p className="mb-2 px-3 text-[10px] font-semibold uppercase tracking-[0.22em] text-ink-400">Studio navigation</p>
             {items.map((item) => (
               <button
                 key={item.key}
@@ -92,7 +90,7 @@ export function AppNav({ view, onNavigate }: Props) {
                   onNavigate(item.key);
                   setMobileOpen(false);
                 }}
-                className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors ${
+                className={`flex items-center gap-3 rounded-2xl px-4 py-3.5 text-sm font-medium transition-colors ${
                   view === item.key
                     ? 'bg-canvas-100 text-ink-900'
                     : 'text-ink-500 hover:bg-canvas-50'
@@ -102,7 +100,7 @@ export function AppNav({ view, onNavigate }: Props) {
                 {item.label}
               </button>
             ))}
-            <div className="h-px bg-canvas-200 my-2" />
+            <div className="my-2 h-px bg-canvas-200" />
             <button
               onClick={signOut}
               className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-terracotta-600 hover:bg-terracotta-50"

@@ -1,6 +1,13 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  safelist: [
+    'bg-saffron-400',
+    'bg-terracotta-400',
+    'bg-sage-400',
+    'bg-teal-400',
+    'bg-plum-400',
+  ],
   theme: {
     extend: {
       colors: {
