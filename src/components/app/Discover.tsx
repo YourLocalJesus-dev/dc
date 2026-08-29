@@ -4,6 +4,7 @@ import { supabase } from '@/lib/supabase';
 import { SkillCard } from '@/components/SkillCard';
 import { Spinner } from '@/components/ui/Spinner';
 import { Modal } from '@/components/ui/Modal';
+import { StudioHeader } from '@/components/app/StudioHeader';
 import { CATEGORIES } from '@/lib/constants';
 import { Search, SlidersHorizontal, Sparkles, Send } from 'lucide-react';
 import type { SkillWithProfile } from '@/types';
@@ -46,17 +47,11 @@ export function Discover() {
   }, [skills, query, category, typeFilter]);
 
   return (
-    <div className="max-w-6xl mx-auto px-6 py-10">
-      <div className="mb-8">
-        <h1 className="font-display text-3xl md:text-4xl font-light text-ink-900 mb-2">
-          Discover skills
-        </h1>
-        <p className="text-sm text-ink-500">
-          Browse what others are teaching and seeking. Find your next exchange.
-        </p>
-      </div>
+    <div className="studio-page">
+      <StudioHeader index="02" eyebrow="The living collection" title={<>Discover <span className="italic">a new craft.</span></>} description="Browse what people are teaching and seeking. A thoughtful exchange is only one invitation away." />
 
-      <div className="flex flex-col md:flex-row gap-3 mb-6">
+      <div className="studio-surface mb-5 p-3 sm:p-4">
+      <div className="flex flex-col gap-3 md:flex-row">
         <div className="relative flex-1 group">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-ink-400 group-focus-within:text-ink-700 transition-colors" />
           <input
@@ -64,7 +59,7 @@ export function Discover() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search skills, descriptions, categories…"
-            className="w-full rounded-full border border-canvas-200 bg-canvas-50/50 pl-11 pr-4 py-3 text-sm text-ink-800 placeholder:text-ink-400 transition-all focus:outline-none focus:border-ink-400 focus:bg-canvas-50"
+            className="w-full rounded-2xl border border-canvas-200 bg-canvas-50 pl-11 pr-4 py-3.5 text-sm text-ink-800 placeholder:text-ink-400 transition-all focus:outline-none focus:border-ink-400"
           />
         </div>
         <div className="flex items-center gap-2">
@@ -76,7 +71,7 @@ export function Discover() {
                 onClick={() => setTypeFilter(t)}
                 className={`shrink-0 rounded-full px-3.5 py-1.5 text-xs font-medium transition-all ${
                   typeFilter === t
-                    ? 'bg-ink-900 text-canvas-50'
+                    ? 'bg-ink-900 text-canvas-50 shadow-md shadow-ink-900/10'
                     : 'bg-canvas-100 text-ink-500 hover:bg-canvas-200'
                 }`}
               >
@@ -87,21 +82,24 @@ export function Discover() {
         </div>
       </div>
 
-      <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-2 mb-8">
+      <div className="mt-3 flex gap-2 overflow-x-auto scrollbar-hide pb-1">
         {['All', ...CATEGORIES].map((cat) => (
           <button
             key={cat}
             onClick={() => setCategory(cat)}
             className={`shrink-0 rounded-full px-4 py-2 text-xs font-medium transition-all ${
               category === cat
-                ? 'bg-saffron-400 text-ink-900'
-                : 'border border-canvas-200 text-ink-500 hover:border-ink-300 hover:text-ink-700'
+                ? 'bg-saffron-400 text-ink-900 shadow-sm'
+                : 'border border-canvas-200 bg-canvas-50 text-ink-500 hover:border-ink-300 hover:text-ink-700'
             }`}
           >
             {cat}
           </button>
         ))}
       </div>
+      </div>
+
+      {!loading && <div className="mb-7 flex items-center justify-between"><p className="text-xs text-ink-400"><span className="font-medium text-ink-700">{filtered.length}</span> pieces in this view</p><span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-ink-400">Curated daily</span></div>}
 
       {loading ? (
         <Spinner>Curating the collection…</Spinner>
@@ -114,7 +112,7 @@ export function Discover() {
           <p className="text-sm text-ink-400">Try a different category or keyword.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
           {filtered.map((skill, i) => (
             <div
               key={skill.id}

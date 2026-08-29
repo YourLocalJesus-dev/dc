@@ -6,7 +6,6 @@ import { Spinner } from '@/components/ui/Spinner';
 import { Reveal } from '@/components/ui/Reveal';
 import { SkillCard } from '@/components/SkillCard';
 import { SkillForm } from '@/components/app/SkillForm';
-import { Button } from '@/components/ui/Button';
 import { COLOR_KEYS, avatarColor } from '@/lib/constants';
 import { Pencil, Plus, MapPin, Trash2, Star, Sparkles, Search, Camera } from 'lucide-react';
 import type { SkillWithProfile, Review } from '@/types';
@@ -120,67 +119,67 @@ export function Profile() {
       : null;
 
   return (
-    <div className="max-w-5xl mx-auto px-6 py-10">
+    <div className="studio-page max-w-5xl">
       <Reveal className="mb-10">
-        <div className="relative overflow-hidden rounded-3xl border border-canvas-200 bg-canvas-50 p-8 grain">
-          <div className="absolute -top-16 -right-16 h-48 w-48 rounded-full bg-gradient-to-br from-saffron-200/30 to-terracotta-200/20 blur-3xl" />
-          <div className="relative flex flex-col md:flex-row md:items-start gap-6">
+        <div className="relative overflow-hidden rounded-[2rem] border border-ink-900 bg-ink-900 p-7 text-canvas-50 shadow-[0_22px_60px_rgba(34,28,19,0.16)] sm:p-9">
+          <div className="absolute -right-20 -top-16 h-72 w-72 rounded-full border border-saffron-300/40" />
+          <div className="absolute -bottom-28 right-20 h-64 w-64 rounded-full border border-canvas-50/15" />
+          <div className="relative flex flex-col gap-7 md:flex-row md:items-start">
             <button type="button" onClick={() => avatarInputRef.current?.click()} className="group relative shrink-0 rounded-full" aria-label="Change profile photo">
-              <Avatar name={profile.full_name} colorKey={profile.avatar_color} src={profile.avatar_url} size="xl" className="ring-4 ring-canvas-50" />
+              <Avatar name={profile.full_name} colorKey={profile.avatar_color} src={profile.avatar_url} size="xl" className="ring-4 ring-ink-800" />
               <span className="absolute inset-0 grid place-items-center rounded-full bg-ink-900/55 text-canvas-50 opacity-0 transition-opacity group-hover:opacity-100">{uploadingAvatar ? '…' : <Camera className="h-5 w-5" />}</span>
             </button>
             <input ref={avatarInputRef} type="file" accept="image/png,image/jpeg,image/webp" className="hidden" onChange={(e) => e.target.files?.[0] && uploadAvatar(e.target.files[0])} />
             <div className="flex-1">
-              <h1 className="font-display text-3xl md:text-4xl font-light text-ink-900 mb-1">
+              <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.24em] text-saffron-300">Maker file / 04</p>
+              <h1 className="mb-1 font-display text-3xl font-light text-canvas-50 md:text-5xl">
                 {profile.full_name}
               </h1>
               {profile.location && (
-                <p className="flex items-center gap-1.5 text-sm text-ink-500 mb-3">
+                <p className="mb-4 flex items-center gap-1.5 text-sm text-canvas-300">
                   <MapPin className="h-3.5 w-3.5" />
                   {profile.location}
                 </p>
               )}
               {profile.bio && (
-                <p className="text-sm text-ink-600 leading-relaxed max-w-xl mb-4">
+                <p className="mb-6 max-w-xl text-sm leading-relaxed text-canvas-300">
                   {profile.bio}
                 </p>
               )}
-            <div className="flex items-center gap-4">
-                <div className="flex items-center gap-1.5">
+            <div className="flex flex-wrap items-center gap-3">
+                <div className="flex items-center gap-1.5 rounded-full border border-canvas-50/15 px-3 py-2">
                   <Sparkles className="h-4 w-4 text-sage-500" />
-                  <span className="text-sm text-ink-600">
-                    <span className="font-medium text-ink-800">{teaching.length}</span> teaching
+                  <span className="text-sm text-canvas-300">
+                    <span className="font-medium text-canvas-50">{teaching.length}</span> teaching
                   </span>
                 </div>
-                <div className="flex items-center gap-1.5">
+                <div className="flex items-center gap-1.5 rounded-full border border-canvas-50/15 px-3 py-2">
                   <Search className="h-4 w-4 text-plum-500" />
-                  <span className="text-sm text-ink-600">
-                    <span className="font-medium text-ink-800">{learning.length}</span> seeking
+                  <span className="text-sm text-canvas-300">
+                    <span className="font-medium text-canvas-50">{learning.length}</span> seeking
                   </span>
                 </div>
                 {avgRating && (
-                  <div className="flex items-center gap-1.5">
+                  <div className="flex items-center gap-1.5 rounded-full border border-canvas-50/15 px-3 py-2">
                     <Star className="h-4 w-4 fill-saffron-400 text-saffron-400" />
-                    <span className="text-sm font-medium text-ink-800">{avgRating}</span>
-                    <span className="text-sm text-ink-400">({reviews.length})</span>
+                    <span className="text-sm font-medium text-canvas-50">{avgRating}</span>
+                    <span className="text-sm text-canvas-300">({reviews.length})</span>
                   </div>
                 )}
               </div>
             </div>
-            {avatarError && <p className="mt-3 max-w-xl text-xs text-terracotta-600">Photo upload: {avatarError}</p>}
-            <Button onClick={() => setEditing(true)} variant="outline" size="sm">
+            {avatarError && <p className="mt-3 max-w-xl text-xs text-terracotta-300">Photo upload: {avatarError}</p>}
+            <button onClick={() => setEditing(true)} className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full border border-canvas-50/30 px-4 py-2 text-sm font-medium text-canvas-50 transition-colors hover:border-saffron-300 hover:bg-canvas-50 hover:text-ink-900">
               <Pencil className="h-3.5 w-3.5" />
               Edit profile
-            </Button>
+            </button>
           </div>
         </div>
       </Reveal>
 
-      <Reveal className="mb-4">
-        <div className="flex items-center justify-between">
-          <h2 className="font-display text-2xl font-medium text-ink-900">
-            Skills I teach
-          </h2>
+      <Reveal className="mb-5">
+        <div className="studio-section-head">
+          <div><p className="studio-section-label">Your offering</p><h2 className="font-display text-2xl font-medium text-ink-900">Skills I teach</h2></div>
           <button
             onClick={() => setShowForm(true)}
             className="text-sm text-ink-500 hover:text-ink-900 ink-underline"
@@ -213,10 +212,8 @@ export function Profile() {
         </div>
       )}
 
-      <Reveal className="mb-4">
-        <h2 className="font-display text-2xl font-medium text-ink-900">
-          Skills I want to learn
-        </h2>
+      <Reveal className="mb-5">
+        <div className="studio-section-head"><div><p className="studio-section-label">Your curiosity</p><h2 className="font-display text-2xl font-medium text-ink-900">Skills I want to learn</h2></div></div>
       </Reveal>
 
       {learning.length === 0 ? (

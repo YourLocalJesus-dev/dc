@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { flushSync } from 'react-dom';
 import { AuthProvider, useAuth } from '@/context/AuthContext';
 import { Landing } from '@/components/landing/Landing';
 import { AuthScreen } from '@/components/auth/AuthScreen';
@@ -17,6 +18,28 @@ function Shell() {
   const [screen, setScreen] = useState<Screen>('landing');
   const [authMode, setAuthMode] = useState<AuthMode>('signin');
   const [view, setView] = useState<AppView>('dashboard');
+
+  function navigate(nextView: AppView) {
+    if (nextView === view) return;
+    const order: AppView[] = ['dashboard', 'discover', 'exchanges', 'profile'];
+    const direction = order.indexOf(nextView) > order.indexOf(view) ? 'forward' : 'back';
+    document.documentElement.dataset.navigationDirection = direction;
+
+    const transitionDocument = document as Document & {
+      startViewTransition?: (callback: () => void) => unknown;
+    };
+
+    if (transitionDocument.startViewTransition) {
+      transitionDocument.startViewTransition(() => {
+        flushSync(() => setView(nextView));
+        window.scrollTo({ top: 0 });
+      });
+      return;
+    }
+
+    setView(nextView);
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  }
 
   useEffect(() => {
     if (loading) return;
@@ -53,12 +76,14 @@ function Shell() {
   }
 
   return (
-    <div className="min-h-screen bg-canvas-50">
-      <AppNav view={view} onNavigate={setView} />
-      {view === 'dashboard' && <Dashboard onNavigate={setView} />}
-      {view === 'discover' && <Discover />}
-      {view === 'exchanges' && <Exchanges />}
-      {view === 'profile' && <Profile />}
+    <div className="app-canvas min-h-screen bg-canvas-50">
+      <AppNav view={view} onNavigate={navigate} />
+      <main className="studio-view-transition">
+        {view === 'dashboard' && <Dashboard onNavigate={navigate} />}
+        {view === 'discover' && <Discover />}
+        {view === 'exchanges' && <Exchanges />}
+        {view === 'profile' && <Profile />}
+      </main>
     </div>
   );
 }

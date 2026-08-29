@@ -3,6 +3,7 @@ import { useAuth } from '@/context/AuthContext';
 import { supabase } from '@/lib/supabase';
 import { Spinner } from '@/components/ui/Spinner';
 import { Avatar } from '@/components/ui/Avatar';
+import { StudioHeader } from '@/components/app/StudioHeader';
 import { Reveal } from '@/components/ui/Reveal';
 import { Clock, CheckCircle2, XCircle, Check, ArrowRight, Inbox, Star } from 'lucide-react';
 import type { ExchangeWithDetails, Review } from '@/types';
@@ -69,22 +70,15 @@ export function Exchanges() {
   if (loading) return <Spinner>Loading exchanges…</Spinner>;
 
   return (
-    <div className="max-w-4xl mx-auto px-6 py-10">
-      <div className="mb-8">
-        <h1 className="font-display text-3xl md:text-4xl font-light text-ink-900 mb-2">
-          Exchanges
-        </h1>
-        <p className="text-sm text-ink-500">
-          Track and manage your skill swaps.
-        </p>
-      </div>
+    <div className="studio-page max-w-5xl">
+      <StudioHeader index="03" eyebrow="The correspondence room" title={<>Every exchange begins with <span className="italic">an invitation.</span></>} description="Keep a clear view of every proposal, conversation, and shared learning moment." />
 
-      <div className="flex gap-1.5 mb-8">
+      <div className="mb-8 flex w-fit rounded-full border border-canvas-200 bg-canvas-100 p-1.5">
         {(['all', 'incoming', 'outgoing'] as Tab[]).map((t) => (
           <button
             key={t}
             onClick={() => setTab(t)}
-            className={`rounded-full px-4 py-2 text-sm font-medium transition-all ${
+            className={`rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.12em] transition-all ${
               tab === t
                 ? 'bg-ink-900 text-canvas-50'
                 : 'bg-canvas-100 text-ink-500 hover:bg-canvas-200'
@@ -96,7 +90,7 @@ export function Exchanges() {
       </div>
 
       {filtered.length === 0 ? (
-        <div className="text-center py-16 rounded-2xl border border-dashed border-canvas-300 bg-canvas-50/50">
+        <div className="studio-surface text-center py-16 border-dashed">
           <Inbox className="h-8 w-8 text-ink-400 mx-auto mb-3" />
           <p className="text-sm text-ink-400">
             {tab === 'incoming'
@@ -107,7 +101,7 @@ export function Exchanges() {
           </p>
         </div>
       ) : (
-        <div className="space-y-4">
+        <div className="relative space-y-4 before:absolute before:bottom-6 before:left-[2.45rem] before:top-6 before:w-px before:bg-canvas-200">
           {filtered.map((ex, i) => {
             const isIncoming = ex.recipient_id === user?.id;
             const other = isIncoming ? ex.requester : ex.recipient;
@@ -116,13 +110,13 @@ export function Exchanges() {
 
             return (
               <Reveal key={ex.id} delay={i * 40}>
-                <div className="rounded-2xl border border-canvas-200 bg-canvas-50 p-5 transition-all hover:shadow-md">
+                <div className="relative rounded-[1.65rem] border border-canvas-200 bg-canvas-50 p-5 shadow-[0_12px_32px_rgba(34,28,19,0.035)] transition-all hover:-translate-y-0.5 hover:shadow-lg">
                   <div className="flex items-start gap-4">
                     {other && (
                       <Avatar name={other.full_name} colorKey={other.avatar_color} src={other.avatar_url} size="lg" />
                     )}
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 flex-wrap mb-1">
+                      <div className="mb-1 flex flex-wrap items-center gap-2">
                         <p className="font-medium text-ink-900">
                           {other?.full_name}
                         </p>
@@ -131,7 +125,7 @@ export function Exchanges() {
                           {isIncoming ? 'wants to learn from you' : 'you requested'}
                         </span>
                       </div>
-                      <p className="text-sm text-ink-600 mb-2">
+                      <p className="mb-3 text-sm text-ink-600">
                         {ex.skills?.title} · <span className="text-ink-400">{ex.skills?.category}</span>
                       </p>
                       {ex.message && (

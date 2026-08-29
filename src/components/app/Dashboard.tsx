@@ -64,7 +64,7 @@ export function Dashboard({ onNavigate }: Props) {
   ];
 
   return (
-    <div className="relative mx-auto max-w-6xl px-5 py-7 sm:px-6 sm:py-10">
+    <div className="studio-page">
       <div className="pointer-events-none absolute left-1/2 top-36 -z-10 h-[40rem] w-[40rem] -translate-x-1/2 rounded-full bg-saffron-100/20 blur-3xl" />
       <Reveal className="mb-12">
         <div className="grid overflow-hidden rounded-[2rem] border border-canvas-200 shadow-[0_22px_60px_rgba(34,28,19,0.10)] lg:grid-cols-[1.08fr_0.92fr]">
@@ -110,8 +110,8 @@ export function Dashboard({ onNavigate }: Props) {
       </Reveal>
 
       <Reveal className="mb-6">
-        <div className="flex items-end justify-between border-b border-ink-900/10 pb-4">
-          <div><p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-ink-400">Your practice</p><h2 className="font-display text-2xl font-medium text-ink-900">Your skills</h2></div>
+        <div className="studio-section-head">
+          <div><p className="studio-section-label">Your practice</p><h2 className="font-display text-2xl font-medium text-ink-900">Your skills</h2></div>
           <button
             onClick={() => setShowForm(true)}
             className="text-sm text-ink-500 hover:text-ink-900 ink-underline"
@@ -150,8 +150,8 @@ export function Dashboard({ onNavigate }: Props) {
       )}
 
       <Reveal className="mb-6">
-        <div className="flex items-end justify-between border-b border-ink-900/10 pb-4">
-          <div><p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-ink-400">Your correspondence</p><h2 className="font-display text-2xl font-medium text-ink-900">Recent exchanges</h2></div>
+        <div className="studio-section-head">
+          <div><p className="studio-section-label">Your correspondence</p><h2 className="font-display text-2xl font-medium text-ink-900">Recent exchanges</h2></div>
           {exchanges.length > 0 && (
             <button
               onClick={() => onNavigate('exchanges')}
