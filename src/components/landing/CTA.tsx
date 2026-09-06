@@ -29,7 +29,6 @@ export function CTA({ onEnter }: Props) {
       <div className="max-w-6xl mx-auto">
         <Reveal>
           <div className="relative overflow-hidden rounded-[2.25rem] bg-ink-900 grain shadow-[0_28px_80px_rgba(34,28,19,0.20)]">
-            {/* Ambient orbs */}
             <div className="absolute inset-0 pointer-events-none overflow-hidden">
               <div className="absolute top-[-20%] left-[10%] h-80 w-80 rounded-full bg-saffron-500/15 blur-3xl animate-pulse-soft" />
               <div className="absolute bottom-[-10%] right-[15%] h-72 w-72 rounded-full bg-terracotta-500/12 blur-3xl animate-pulse-soft" style={{ animationDelay: '2s' }} />
@@ -38,7 +37,6 @@ export function CTA({ onEnter }: Props) {
               <div className="portal-ring-two absolute -bottom-28 -left-20 h-72 w-72 rounded-full border border-plum-300/30" />
             </div>
 
-            {/* Marquee ribbon */}
             <div className="relative overflow-hidden border-b border-canvas-50/10 py-4">
               <div className="flex animate-marquee whitespace-nowrap" ref={marqueeRef}>
                 {[...MARQUEE_SKILLS, ...MARQUEE_SKILLS].map((skill, i) => (
@@ -50,9 +48,7 @@ export function CTA({ onEnter }: Props) {
               </div>
             </div>
 
-            {/* Main content */}
             <div className="relative px-6 py-16 sm:px-10 md:px-16 md:py-24">
-              {/* Stats row */}
               <div className="mb-16 grid grid-cols-2 gap-5 md:grid-cols-4 md:gap-6">
                 {STATS.map((stat) => (
                   <div key={stat.label} className="text-center">
@@ -67,10 +63,8 @@ export function CTA({ onEnter }: Props) {
                 ))}
               </div>
 
-              {/* Divider */}
               <div className="mb-16 h-px bg-gradient-to-r from-transparent via-canvas-50/20 to-transparent" />
 
-              {/* Text + CTA */}
               <div className="text-center max-w-2xl mx-auto">
                 <p className="mb-4 text-[10px] font-semibold uppercase tracking-[0.26em] text-saffron-300">Your next chapter is waiting</p>
                 <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-light text-canvas-50 leading-tight text-balance mb-6">

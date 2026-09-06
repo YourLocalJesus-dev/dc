@@ -39,7 +39,6 @@ const steps = [
 export function HowItWorks() {
   return (
     <section className="relative overflow-hidden bg-canvas-50 px-5 py-24 text-ink-900 sm:px-6 md:py-36">
-      {/* Ambient glow */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute left-[18%] top-20 h-[34rem] w-[34rem] rounded-full border border-saffron-200/60" />
         <div className="absolute right-[10%] top-1/2 h-72 w-72 -translate-y-1/2 rounded-full bg-plum-100/35 blur-3xl" />
@@ -65,13 +64,13 @@ export function HowItWorks() {
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {steps.map((step, i) => (
               <Reveal key={step.num} delay={i * 120} className={`relative group ${i % 2 ? 'lg:translate-y-12' : ''}`}>
-                <article className="relative h-full overflow-hidden rounded-[1.8rem] border border-canvas-200 bg-canvas-50/80 p-6 shadow-[0_16px_42px_rgba(34,28,19,0.06)] transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl">
+                <article className="relative h-full overflow-hidden rounded-[1.8rem] border border-canvas-200 bg-canvas-50/80 p-6 shadow-[0_16px_42px_rgba(34,28,19,0.06)] transition-all duration-500">
                 <span className="absolute -right-2 -top-8 font-display text-[8rem] font-light leading-none text-ink-900/[0.045]">{step.num}</span>
                 <div className="relative inline-flex items-center justify-center mb-8">
-                  <div className={`h-16 w-16 rounded-[1.25rem] ${step.accent} border flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 hover:shadow-xl`}>
+                  <div className={`h-16 w-16 rounded-[1.25rem] ${step.accent} border flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:rotate-6`}>
                     <step.icon className={`h-10 w-10 ${step.iconColor}`} />
                   </div>
-                  <span className="absolute -bottom-3 -right-3 h-7 w-7 rounded-full bg-ink-900 text-canvas-50 text-[10px] font-display font-semibold flex items-center justify-center shadow-lg shadow-ink-900/30">
+                  <span className="absolute -bottom-3 -right-3 h-7 w-7 rounded-full bg-ink-900 text-canvas-50 text-[10px] font-display font-semibold flex items-center justify-center shadow-lg">
                     {step.num}
                   </span>
                 </div>
