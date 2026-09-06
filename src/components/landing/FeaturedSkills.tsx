@@ -65,7 +65,6 @@ function MockSkillCard({ skill, blurred, index }: { skill: typeof MOCK_SKILLS[0]
   return (
     <article className="group relative h-full transition-all duration-700">
       <div className={`relative h-full overflow-hidden rounded-[1.9rem] border border-canvas-200 bg-canvas-50/80 p-6 transition-all duration-500 ${blurred === 'none' ? 'hover:border-ink-300 hover:shadow-2xl hover:shadow-ink-900/10 hover:-translate-y-2 hover:rotate-[0.5deg]' : ''} ${subduedClass}`}>
-        {/* Hover glow */}
         <div className="absolute -top-20 -right-20 h-40 w-40 rounded-full bg-gradient-to-br from-saffron-200/0 to-terracotta-200/0 group-hover:from-saffron-200/40 group-hover:to-terracotta-200/30 transition-all duration-700 blur-2xl" />
 
         <span className="absolute right-5 top-16 font-display text-6xl font-light text-ink-900/[0.04]">0{index + 1}</span>
@@ -96,7 +95,6 @@ function MockSkillCard({ skill, blurred, index }: { skill: typeof MOCK_SKILLS[0]
         </div>
       </div>
 
-      {/* Lock icon overlay for blurred cards */}
       {blurred !== 'none' && (
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <div className="h-10 w-10 rounded-full bg-canvas-50/80 backdrop-blur-sm border border-canvas-200 flex items-center justify-center shadow-lg">
@@ -112,7 +110,6 @@ export function FeaturedSkills({ onEnter }: Props) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [count, setCount] = useState(0);
 
-  // Animated counter
   useEffect(() => {
     const target = 2847;
     const duration = 2000;
@@ -142,14 +139,12 @@ export function FeaturedSkills({ onEnter }: Props) {
 
   return (
     <section ref={sectionRef} className="relative overflow-hidden px-5 py-24 sm:px-6 md:py-36">
-      {/* Ambient background glow */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-[20%] left-[5%] h-96 w-96 rounded-full bg-saffron-200/20 blur-3xl animate-pulse-soft" />
         <div className="absolute bottom-[10%] right-[8%] h-80 w-80 rounded-full bg-plum-200/15 blur-3xl animate-pulse-soft" style={{ animationDelay: '2s' }} />
       </div>
 
       <div className="relative max-w-6xl mx-auto">
-        {/* Header */}
         <Reveal className="mb-16 flex flex-col justify-between gap-6 border-y border-ink-900/10 py-7 md:flex-row md:items-end">
           <div className="max-w-xl">
             <div className="inline-flex items-center gap-2 rounded-full border border-saffron-200 bg-saffron-50/80 px-4 py-1.5 mb-4">
@@ -167,7 +162,6 @@ export function FeaturedSkills({ onEnter }: Props) {
             </p>
           </div>
 
-          {/* Stats pills */}
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2 rounded-full bg-canvas-100 border border-canvas-200 px-4 py-2">
               <Eye className="h-3.5 w-3.5 text-ink-400" />
@@ -176,7 +170,6 @@ export function FeaturedSkills({ onEnter }: Props) {
           </div>
         </Reveal>
 
-        {/* Cards grid */}
         <div className="relative">
           <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
             {MOCK_SKILLS.map((skill, i) => {
@@ -189,13 +182,10 @@ export function FeaturedSkills({ onEnter }: Props) {
             })}
           </div>
 
-          {/* Gradient fade overlay on bottom half */}
           <div className="absolute bottom-0 left-0 right-0 h-[55%] bg-gradient-to-t from-canvas-50 via-canvas-50/80 to-transparent pointer-events-none" />
 
-          {/* Premium access CTA — overlaid on the blurred section */}
           <div className="absolute bottom-0 left-0 right-0 flex flex-col items-center pb-4 z-10">
             <div className="relative glass rounded-2xl border border-canvas-200/80 shadow-2xl shadow-ink-900/10 px-8 py-8 md:px-12 md:py-10 max-w-lg w-full text-center">
-              {/* Subtle shimmer border effect */}
               <div className="absolute inset-0 rounded-2xl overflow-hidden pointer-events-none">
                 <div className="absolute inset-0 bg-gradient-to-r from-saffron-300/0 via-saffron-300/10 to-saffron-300/0 animate-shimmer" 
                      style={{ backgroundSize: '200% 100%', animation: 'shimmer 4s linear infinite' }} />

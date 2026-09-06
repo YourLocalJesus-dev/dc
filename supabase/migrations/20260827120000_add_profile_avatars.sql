@@ -1,7 +1,5 @@
--- Profile photo support
 ALTER TABLE profiles ADD COLUMN IF NOT EXISTS avatar_url text;
 
--- Public bucket: profile photos are intentionally readable by the discovery experience.
 INSERT INTO storage.buckets (id, name, public)
 VALUES ('avatars', 'avatars', true)
 ON CONFLICT (id) DO UPDATE SET public = true;
